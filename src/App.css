@@ -1,0 +1,41 @@
+.app {
+	display: flex;
+	flex-direction: column;
+}
+
+.app .header {
+	margin: 10px 10px 0 10px;
+	text-transform: uppercase;
+}
+
+.app .description {
+	margin: 10px 10px 0 10px;
+}
+
+.app .content {
+	display: flex;
+	flex-flow: row wrap;
+	padding: 5px;
+}
+
+.app .content > div {
+	display: flex;
+	flex-flow: row wrap;
+	margin: 5px;
+}
+
+.app .content .album,
+.app .content .photo {
+	display: flex;
+	flex-direction: column;
+}
+
+.app .content .info {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 4px;
+}
+
+.app .content .album .info span + span:before {
+	content: " + ";
+}
