@@ -11,7 +11,7 @@ class AppStore {
 	description = '';
 	albums = [];
 	photos = [];
-	
+	pendingRequests = 0;
 	setDescription(description) {
 		this.description = description;
 	}
@@ -31,11 +31,33 @@ class AppStore {
 	setPhotos(photos) {
 		this.photos.replace(photos);
 	}
+
+	getData(url) {
+		this.pendingRequests++;
+
+		this.setDescription('');
+		this.setPhotos([]);
+		this.setAlbums([]);
+
+		setTimeout(() => {
+				fetch(url)
+				.then((response) => { return response.json(); })
+				.then((json) => {
+					this.setDescription(json.description);
+					this.setPhotos(json.albums);
+					this.setAlbums(json.photos);
+					this.pendingRequests--;
+				})
+			},
+			1000
+		);
+	}
 }
 decorate(AppStore, {
 	description: observable,
 	albums: observable,
 	photos: observable,
+	pendingRequests: observable,
 	addAlbum: action,
 	setAlbums: action,
 	addPhoto: action,
@@ -50,7 +72,7 @@ const App = observer(
 			autorun(() => console.log(this.store.description));
 		}
 		componentDidMount() {
-			this.getData('http://localhost:3000/data1.json');
+			this.store.getData('http://localhost:3000/data1.json');
 		}
 		render() {
 			return (
@@ -74,16 +96,7 @@ const App = observer(
 			);
 		}
 		testClick() {
-			this.getData('http://localhost:3000/data2.json');
-		}
-		getData(url) {
-			fetch(url)
-				.then((response) => { return response.json(); })
-				.then((json) => {
-					this.store.setDescription(json.description);
-					this.store.setPhotos(json.albums);
-					this.store.setAlbums(json.photos);
-				});
+			this.store.getData('http://localhost:3000/data2.json');
 		}
 	}
 )
