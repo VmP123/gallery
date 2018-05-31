@@ -44,8 +44,8 @@ class AppStore {
 				.then((response) => { return response.json(); })
 				.then((json) => {
 					this.setDescription(json.description);
-					this.setPhotos(json.albums);
-					this.setAlbums(json.photos);
+					this.setPhotos(json.photos);
+					this.setAlbums(json.albums);
 					this.pendingRequests--;
 				})
 			},
@@ -87,7 +87,7 @@ const App = observer(
 					}
 					{
 						this.store.photos.map((photo) => {
-						return <Photo key={photo.key} thumbnailUrl={photo.thumbnailUrl} name={photo.name} />
+						return <Photo key={photo.key} thumbnailUrl={photo.thumbnailUrl} photoUrl={photo.photoUrl} name={photo.name} />
 						})
 					}
 					</div>
