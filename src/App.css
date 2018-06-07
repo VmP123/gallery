@@ -28,6 +28,7 @@
 .app .content .photo {
 	display: flex;
 	flex-direction: column;
+	cursor: pointer;
 }
 
 .app .content .info {

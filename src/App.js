@@ -1,6 +1,9 @@
 import React from 'react';
-import { autorun, decorate, observable, computed, action } from 'mobx'
+import { decorate, observable, action, computed } from 'mobx'
 import { observer } from 'mobx-react'
+
+import {PhotoSwipe} from 'react-photoswipe';
+import 'react-photoswipe/lib/photoswipe.css';
 
 import Header from './components/Header.js';
 import Album from './components/Album.js';
@@ -52,16 +55,38 @@ class AppStore {
 			1000
 		);
 	}
+
+	get photoSwipeItems() {
+		return this.photos.map(function (photo) {
+			return {
+				src: photo.photoUrl,
+				w: 600,
+				h: 600
+			}
+		});
+	}
+
+	isPhotoSwipeOpen = false;			
+	photoSwipeOptions = {
+		captionEl: false,
+		tapToToggleControls: false,
+		mainClass: 'pswp--minimal--dark',
+		barsSize: { top: 0, bottom: 0 },
+		history: false
+	};
 }
 decorate(AppStore, {
 	description: observable,
 	albums: observable,
 	photos: observable,
 	pendingRequests: observable,
+	isPhotoSwipeOpen: observable,
+	photoSwipeOptions: observable,
 	addAlbum: action,
 	setAlbums: action,
 	addPhoto: action,
 	setPhotos: action,
+	photoSwipeItems: computed
 });
 
 const App = observer(
@@ -69,7 +94,6 @@ const App = observer(
 		constructor(props) {
 			super(props);
 			this.store = new AppStore();
-			autorun(() => console.log(this.store.description));
 		}
 		componentDidMount() {
 			this.store.getData('http://localhost:3000/data1.json');
@@ -87,16 +111,24 @@ const App = observer(
 					}
 					{
 						this.store.photos.map((photo) => {
-						return <Photo key={photo.key} thumbnailUrl={photo.thumbnailUrl} photoUrl={photo.photoUrl} name={photo.name} />
+						return <Photo key={photo.key} thumbnailUrl={photo.thumbnailUrl} photoUrl={photo.photoUrl} name={photo.name} openPhoto={this.openPhoto} />
 						})
 					}
 					</div>
-					<button onClick={this.testClick.bind(this)}>Testaa</button>
+					<button onClick={this.testClick}>Testaa</button>
+					{this.store.isPhotoSwipeOpen ? (<PhotoSwipe isOpen={this.store.isPhotoSwipeOpen} items={this.store.photoSwipeItems} options={this.store.photoSwipeOptions} onClose={this.closePhoto} />) : null}
 				</div>
 			);
 		}
-		testClick() {
+		testClick = () => {
 			this.store.getData('http://localhost:3000/data2.json');
+		}
+		openPhoto = (photoUrl) => {
+			this.store.photoSwipeOptions.index = this.store.photoSwipeItems.findIndex((i) => { return i.src === photoUrl; });
+			this.store.isPhotoSwipeOpen = true;
+		}
+		closePhoto = () => {
+			this.store.isPhotoSwipeOpen = false;
 		}
 	}
 )

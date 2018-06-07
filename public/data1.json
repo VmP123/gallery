@@ -14,6 +14,6 @@
 	],
 	"photos": [
 		{ "key": 1, "thumbnailUrl": "http://via.placeholder.com/200x200", "photoUrl": "http://via.placeholder.com/600x600", "name": "Eka" },
-		{ "key": 2, "thumbnailUrl": "http://via.placeholder.com/200x200", "photoUrl": "http://via.placeholder.com/600x600", "name": "Toka" }
+		{ "key": 2, "thumbnailUrl": "http://via.placeholder.com/200x200", "photoUrl": "http://via.placeholder.com/700x700", "name": "Toka" }
 	]
 }
