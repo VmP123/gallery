@@ -1,7 +1,0 @@
-{
-	"description": "Curabitur nec cursus enim. Vivamus consectetur egestas tincidunt.",
-	"albums": [
-		{ "key": 11, "thumbnailUrl": "http://via.placeholder.com/200x200", "name": "Kolmas", "photoCount": 10, "albumCount": 0 }
-	],
-	"photos": []
-}

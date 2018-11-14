@@ -33,26 +33,30 @@ class AppStore {
 		this.setPhotos([]);
 		this.setAlbums([]);
 
-		setTimeout(() => {
-				fetch(url)
-				.then((response) => { return response.json(); })
-				.then((json) => {
-					this.setDescription(json.description);
-					this.setPhotos(json.photos);
-					this.setAlbums(json.albums);
-					this.pendingRequests--;
-				})
-			},
-			1000
-		);
+		fetch(url)
+		.then((response) => { return response.json(); })
+		.then((json) => {
+			this.setDescription(json.description);
+			this.setPhotos(json.photos);
+			this.setAlbums(json.albums);
+			this.pendingRequests--;
+		});
+	}
+
+	@action openPhoto = (photoUrl) => {
+		this.photoSwipeOptions.index = this.photoSwipeItems.findIndex((i) => { return i.src === photoUrl; });
+		this.isPhotoSwipeOpen = true;
+	}
+	@action closePhoto = () => {
+		this.isPhotoSwipeOpen = false;
 	}
 
 	@computed get photoSwipeItems() {
 		return this.photos.map(function (photo) {
 			return {
 				src: photo.photoUrl,
-				w: 600,
-				h: 600
+				w: photo.width,
+				h: photo.height
 			}
 		});
 	}

@@ -8,7 +8,6 @@ class Photo extends React.Component {
 		return (
 			<div className="photo" onClick={this.openPhoto}>
 				<img src={this.props.thumbnailUrl} alt=""/>
-				<div className="info">{this.props.name}</div>
 			</div>
 		);
 	}

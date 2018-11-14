@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 class Album extends React.Component {
 	render() {
 		return (
-			<div className="album">
+			<div className="album" onClick={this.props.openAlbum}>
 				<img src={this.props.thumbnailUrl} alt=""/>
 				<div className="info">
 					<div>{this.props.name}</div>
