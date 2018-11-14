@@ -36,19 +36,20 @@ class GalleryServer {
 
 	getAlbum(req, res) {
 		var rootUrl = req.protocol + '://' + req.get('host');
-		var leaftUrl = this.getAlbumDirectory(req.path) || '.';
+		var albumDirectory = this.getAlbumDirectory(req.path);
 		
-		this.getAlbumInner(rootUrl, leaftUrl, res).then(retVal => {
+		this.getAlbumInner(rootUrl, albumDirectory, res).then(retVal => {
 			this.fillResult(retVal, res);
 		});
 	}
 	
-	getAlbumInner(rootUrl, leaftUrl, res) {
+	getAlbumInner(rootUrl, albumDirectory, res) {
 		return new Promise((resolve, reject) => {
-			fs.lstat(path.join(this.galleryRootDirectory, leaftUrl), (err, stats) => {
+			fs.lstat(path.join(this.galleryRootDirectory, albumDirectory), (err, stats) => {
 				if (stats && stats.isDirectory()) {
-					this.readDirectory(leaftUrl).then((value) => {
+					this.readDirectory(albumDirectory).then((value) => {
 						var album = {
+							directory: albumDirectory,
 							albums: [],
 							photos: []
 						}
@@ -94,7 +95,7 @@ class GalleryServer {
 							}));
 						});
 
-						Promise.all(albumPromises.concat(photoPromises)).then((albums) => {
+						Promise.all(albumPromises.concat(photoPromises)).then(() => {
 							resolve({
 								contentType: 'application/json',
 								status: 200,
