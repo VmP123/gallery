@@ -34,7 +34,7 @@ describe('Integration tests for RESTful API', function() {
 
 	  it('should return content of album called "a"', function() {
 		return chai.request(app)
-		  .get('/albums/a')
+		  .get('/albums/Album')
 		  .then(function(res) {
 			expect(res).to.have.status(200);
 			expect(res).to.be.json;
@@ -48,13 +48,11 @@ describe('Integration tests for RESTful API', function() {
 
 	  it('should return content of album b inside album a', function() {
 		return chai.request(app)
-		  .get('/albums/a/b')
+		  .get('/albums/Album/Another%20album')
 		  .then(function(res) {
 			expect(res).to.have.status(200);
 			expect(res).to.be.json;
 			expect(res.body).to.be.an('object');
-			expect(res.body.albums).to.be.an('array');
-			expect(res.body.albums).to.have.lengthOf(1);
 			expect(res.body.photos).to.be.an('array');
 			expect(res.body.photos).to.have.lengthOf(1);
 		  })
@@ -64,7 +62,7 @@ describe('Integration tests for RESTful API', function() {
 	describe('GET /photos', function() {
 	  it('should return jpeg file', function() {
 		return chai.request(app)
-		  .get('/photos/a/IMG_9991.jpg')
+		  .get('/photos/Album/IMG_9991.jpg')
 		  .then(function(res) {
 			expect(res).to.have.status(200);
 			expect(res).to.have.header('content-type', 'image/jpeg');
@@ -95,7 +93,7 @@ describe('Integration tests for RESTful API', function() {
 	describe('GET /thumbnails', function() {
 	  it('should return jpeg file', function() {
 		return chai.request(app)
-		  .get('/thumbnails/a/IMG_9991.jpg')
+		  .get('/thumbnails/Album/IMG_2799.jpg')
 		  .then(function(res) {
 			expect(res).to.have.status(200);
 			expect(res).to.have.header('content-type', 'image/jpeg');

@@ -4,11 +4,11 @@ import { observer } from 'mobx-react'
 import { PhotoSwipe } from 'react-photoswipe';
 import 'react-photoswipe/lib/photoswipe.css';
 
-
 import 'materialize-css/dist/css/materialize.min.css'
 // import M from 'materialize-css'
 
 import Header from './components/Header.js';
+import Description from './components/Description.js';
 import Album from './components/Album.js';
 import Photo from './components/Photo.js';
 import AppStore from './AppStore.js';
@@ -30,11 +30,7 @@ class App extends React.Component {
 			<div className="" >
 				<Header breadcrumbs={this.store.breadcrumbs} getData={this.store.getData} />
 				<div>
-					<div className="section no-pad-bot">
-						<div className="container" >
-							<div className="flow-text grey-text text-darken-3">{this.store.description}</div>
-						</div>
-					</div>
+					<Description text={this.store.description} />
 					<div className="section">
 						<div className="container photos">
 							<div className="row">

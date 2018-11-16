@@ -1,7 +1,8 @@
 import React from 'react';
-
+import { observer } from 'mobx-react'
 import Breadcrumb from './Breadcrumb.js';
 
+@observer
 class Breadcrumbs extends React.Component {
 	render() {
 		return (
