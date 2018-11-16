@@ -32,7 +32,7 @@ class App extends React.Component {
 				<div>
 					<div className="section no-pad-bot">
 						<div className="container" >
-							<div className="flow-text grey-text text-darken-3">Tämä on albumin kuvaus{this.store.description}</div>
+							<div className="flow-text grey-text text-darken-3">{this.store.description}</div>
 						</div>
 					</div>
 					<div className="section">

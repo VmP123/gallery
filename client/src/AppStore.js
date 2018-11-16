@@ -41,7 +41,7 @@ class AppStore {
 
 		fetch(url)
 		.then((response) => { return response.json(); })
-		.then((json) => {
+		.then((json) => {			
 			this.setDescription(json.description);
 			this.setPhotos(json.photos);
 			this.setAlbums(json.albums);

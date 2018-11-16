@@ -54,12 +54,12 @@ class GalleryServer {
 							albums: [],
 							photos: []
 						}
-						
 						var promises = [];
 						
 						// Description
 						promises.push(new Promise((resolve, reject) => {
-							fs.readFile(path.join(albumDirectory, this.albumInfoFile), (err, data) => {
+							var albumInfoFileFullPath = path.join(this.galleryRootDirectory, albumDirectory, this.albumInfoFile);
+							fs.readFile(albumInfoFileFullPath, (err, data) => {
 								if (data) {
 									var albumInfo = JSON.parse(data);
 									album.description = albumInfo.description;
