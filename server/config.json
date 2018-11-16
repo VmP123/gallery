@@ -1,6 +1,6 @@
 {
 	"port": 4000,
-	"thumbnailMaxWidth": 200,
-	"thumbnailMaxHeight": 200,
+	"thumbnailMaxWidth": 420,
+	"thumbnailMaxHeight": 420,
 	"galleryDirectory": "gallery"
 }

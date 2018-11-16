@@ -1,6 +1,7 @@
 import { observable, action, computed } from 'mobx'
 
 class AppStore {
+	@observable url = '';
 	@observable description = '';
 	@observable albums = [];
 	@observable photos = [];
@@ -10,6 +11,10 @@ class AppStore {
 		this.description = description;
 	}
 
+	@action setUrl(url) {
+		this.url = url;
+	}
+	
 	@action addAlbum(album) {
 		this.albums.push(album);
 	}
@@ -26,9 +31,10 @@ class AppStore {
 		this.photos.replace(photos);
 	}
 
-	@action getData(url) {
+	@action getData = (url) => {
 		this.pendingRequests++;
 
+		this.setUrl(url);
 		this.setDescription('');
 		this.setPhotos([]);
 		this.setAlbums([]);
@@ -61,6 +67,21 @@ class AppStore {
 		});
 	}
 
+	@computed get breadcrumbs() {
+		var breadcrumbs = [];
+		if (this.url) {
+			var splitted = this.url.split('/').filter(item => item);
+			for (var i = 0; i < splitted.length; i++) {
+				breadcrumbs.push({
+					url: '/' + splitted.slice(0, i + 1).join('/'),
+					name: i !== 0? splitted[i] : 'Koti'
+				});
+			}			
+		}
+
+		return breadcrumbs;
+	}
+	
 	@observable isPhotoSwipeOpen = false;			
 	@observable photoSwipeOptions = {
 		captionEl: false,

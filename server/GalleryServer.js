@@ -49,20 +49,33 @@ class GalleryServer {
 				if (stats && stats.isDirectory()) {
 					this.readDirectory(albumDirectory).then((value) => {
 						var album = {
+							description: null,
 							directory: albumDirectory,
 							albums: [],
 							photos: []
 						}
 						
+						var promises = [];
+						
+						// Description
+						promises.push(new Promise((resolve, reject) => {
+							fs.readFile(path.join(albumDirectory, this.albumInfoFile), (err, data) => {
+								if (data) {
+									var albumInfo = JSON.parse(data);
+									album.description = albumInfo.description;
+								}
+								resolve();
+							});							
+						}));
+						
 						// Photos
-						var photoPromises = [];
 						var albumInfoFileExt = path.extname(this.albumInfoFile).slice(1);
 						value.files.filter(file => {
 							var ext = path.extname(file).slice(1);
 							return this.mime[ext] && ext !== albumInfoFileExt;
 						}).forEach(file => {
 							var fullPath = this.backslashToSlash(path.join(value.rootDirectory, file))
-							photoPromises.push(new Promise((resolve, reject) => {
+							promises.push(new Promise((resolve, reject) => {
 								sizeOf(path.join(this.galleryRootDirectory, fullPath), function (err, dimensions) {
 									album.photos.push({
 										name: file,
@@ -77,10 +90,9 @@ class GalleryServer {
 						});
 
 						// Albums
-						var albumPromises = [];
 						value.directories.forEach(directory => {
 							var fullPath = this.backslashToSlash(path.join(value.rootDirectory, directory))
-							albumPromises.push(new Promise((resolve, reject) => {
+							promises.push(new Promise((resolve, reject) => {
 								this.getAlbumThumbnail(fullPath).then((thumbnail) => {
 									var innerAlbum = {
 										name: directory,
@@ -95,7 +107,7 @@ class GalleryServer {
 							}));
 						});
 
-						Promise.all(albumPromises.concat(photoPromises)).then(() => {
+						Promise.all(promises).then(() => {
 							resolve({
 								contentType: 'application/json',
 								status: 200,
@@ -175,7 +187,7 @@ class GalleryServer {
 				this.thumbnailMaxWidth,
 				this.thumbnailMaxHeight,
 				{
-					fit: sharp.fit.inside, 
+					fit: sharp.fit.cover, 
 					withoutEnlargement: true
 				}).jpeg();
 			

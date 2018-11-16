@@ -5,15 +5,8 @@ import { observer } from 'mobx-react'
 class Album extends React.Component {
 	render() {
 		return (
-			<div className="album" onClick={this.props.openAlbum}>
-				<img src={this.props.thumbnailUrl} alt=""/>
-				<div className="info">
-					<div>{this.props.name}</div>
-					<div>
-						<span>{this.props.photoCount}</span>
-						{ this.props.albumCount > 0 ? <span>{this.props.albumCount}</span> : null}
-					</div>
-				</div>
+			<div className="col s6 m4 xl3" onClick={this.props.openAlbum}>
+				<img src={this.props.thumbnailUrl} className="responsive-img" alt=""/>
 			</div>
 		);
 	}

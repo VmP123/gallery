@@ -1,42 +1,15 @@
-.app {
-	display: flex;
-	flex-direction: column;
-}
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.app .header {
-	margin: 10px 10px 0 10px;
-	text-transform: uppercase;
+.photos .row .col {
+	padding: 0;
 }
-
-.app .description {
-	margin: 10px 10px 0 10px;
+nav.top-nav {
+	height: 110px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-bottom: 1px solid rgba(0,0,0,0.14);
+	background-color: transparent;
 }
-
-.app .content {
-	display: flex;
-	flex-flow: row wrap;
-	padding: 5px;
-}
-
-.app .content > div {
-	display: flex;
-	flex-flow: row wrap;
-	margin: 5px;
-}
-
-.app .content .album,
-.app .content .photo {
-	display: flex;
-	flex-direction: column;
-	cursor: pointer;
-}
-
-.app .content .info {
-	display: flex;
-	justify-content: space-between;
-	margin-top: 4px;
-}
-
-.app .content .album .info span + span:before {
-	content: " + ";
+.header-text {
+	font-weight: 300;
 }

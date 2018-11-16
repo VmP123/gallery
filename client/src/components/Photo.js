@@ -6,8 +6,8 @@ import { observer } from 'mobx-react'
 class Photo extends React.Component {
 	render() {
 		return (
-			<div className="photo" onClick={this.openPhoto}>
-				<img src={this.props.thumbnailUrl} alt=""/>
+			<div className="photo col s6 m4 xl3" onClick={this.openPhoto}>
+				<img className="responsive-img" src={this.props.thumbnailUrl} alt=""/>
 			</div>
 		);
 	}
