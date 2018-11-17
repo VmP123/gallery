@@ -2,6 +2,7 @@
 
 .photos .row .col {
 	padding: 0;
+	cursor: pointer;
 }
 nav.top-nav {
 	height: 110px;
@@ -12,4 +13,7 @@ nav.top-nav {
 }
 .header-text {
 	font-weight: 300;
+}
+.breadcrumb {
+	cursor: pointer;
 }

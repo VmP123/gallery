@@ -20,7 +20,6 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.store = new AppStore();
-		
 	}
 	componentDidMount() {
 		this.store.getData('/albums/');
@@ -36,7 +35,7 @@ class App extends React.Component {
 							<div className="row">
 								{
 									this.store.albums.map((album) => {
-									return <Album key={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.store.getData(album.albumUrl)} />
+										return <Album key={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.store.getData(album.albumUrl)} />
 									})
 								}
 								{

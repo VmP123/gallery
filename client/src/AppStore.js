@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx'
+import createHistory from 'history/createBrowserHistory'
 
 class AppStore {
 	@observable url = '';
@@ -6,13 +7,16 @@ class AppStore {
 	@observable albums = [];
 	@observable photos = [];
 	@observable pendingRequests = 0;
-	
+	@observable history = createHistory();	
+
 	@action setDescription(description) {
 		this.description = description;
 	}
 
 	@action setUrl(url) {
 		this.url = url;
+		var index = url.indexOf('/', 1);
+		this.history.push(index !== -1 ? url.substring(index) : '');
 	}
 	
 	@action addAlbum(album) {
