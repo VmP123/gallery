@@ -7,7 +7,7 @@ class AppStore {
 	@observable albums = [];
 	@observable photos = [];
 	@observable pendingRequests = 0;
-	@observable history = createHistory();	
+	@observable history = createHistory();
 
 	@action setDescription(description) {
 		this.description = description;
@@ -45,7 +45,7 @@ class AppStore {
 
 		fetch(url)
 		.then((response) => { return response.json(); })
-		.then((json) => {			
+		.then((json) => {
 			this.setDescription(json.description);
 			this.setPhotos(json.photos);
 			this.setAlbums(json.albums);
@@ -80,13 +80,13 @@ class AppStore {
 					url: '/' + splitted.slice(0, i + 1).join('/'),
 					name: i !== 0? splitted[i] : 'Koti'
 				});
-			}			
+			}
 		}
 
 		return breadcrumbs;
 	}
 	
-	@observable isPhotoSwipeOpen = false;			
+	@observable isPhotoSwipeOpen = false;
 	@observable photoSwipeOptions = {
 		captionEl: false,
 		tapToToggleControls: false,

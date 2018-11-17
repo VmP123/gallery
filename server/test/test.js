@@ -5,120 +5,110 @@ const expect = require('chai').expect;
 
 chai.use(require('chai-http'));
 
-const app = require('../index.js'); // Our app
+const app = require('../index.js');
 
 
 describe('Integration tests for RESTful API', function() {
 	describe('GET /albums', function() {
-	  //this.timeout(5000); // How long to wait for a response (ms)
+		it('should return content of root album', function() {
+			return chai.request(app)
+				.get('/albums/')
+				.then(function(res) {
+					expect(res).to.have.status(200);
+					expect(res).to.be.json;
+					expect(res.body).to.be.an('object');
+					expect(res.body.albums).to.be.an('array');
+					expect(res.body.photos).to.be.an('array');
+				});
+		});
 
-	  before(function() {
+		it('should return content of album called "a"', function() {
+			return chai.request(app)
+				.get('/albums/Album')
+				.then(function(res) {
+					expect(res).to.have.status(200);
+					expect(res).to.be.json;
+					expect(res.body).to.be.an('object');
+					expect(res.body.albums).to.be.an('array');
+					expect(res.body.albums).to.have.lengthOf(1);
+					expect(res.body.photos).to.be.an('array');
+					expect(res.body.photos).to.have.lengthOf(2);
+				})
+		});
 
-	  });
-
-	  after(function() {
-
-	  });
-
-	  it('should return content of root album', function() {
-		return chai.request(app)
-		  .get('/albums/')
-		  .then(function(res) {
-			expect(res).to.have.status(200);
-			expect(res).to.be.json;
-			expect(res.body).to.be.an('object');
-			expect(res.body.albums).to.be.an('array');
-			expect(res.body.photos).to.be.an('array');
-		  });
-	  });
-
-	  it('should return content of album called "a"', function() {
-		return chai.request(app)
-		  .get('/albums/Album')
-		  .then(function(res) {
-			expect(res).to.have.status(200);
-			expect(res).to.be.json;
-			expect(res.body).to.be.an('object');
-			expect(res.body.albums).to.be.an('array');
-			expect(res.body.albums).to.have.lengthOf(1);
-			expect(res.body.photos).to.be.an('array');
-			expect(res.body.photos).to.have.lengthOf(2);
-		  })
-	  });
-
-	  it('should return content of album b inside album a', function() {
-		return chai.request(app)
-		  .get('/albums/Album/Another%20album')
-		  .then(function(res) {
-			expect(res).to.have.status(200);
-			expect(res).to.be.json;
-			expect(res.body).to.be.an('object');
-			expect(res.body.photos).to.be.an('array');
-			expect(res.body.photos).to.have.lengthOf(1);
-		  })
-	  });
+		it('should return content of album b inside album a', function() {
+			return chai.request(app)
+				.get('/albums/Album/Another%20album')
+				.then(function(res) {
+					expect(res).to.have.status(200);
+					expect(res).to.be.json;
+					expect(res.body).to.be.an('object');
+					expect(res.body.photos).to.be.an('array');
+					expect(res.body.photos).to.have.lengthOf(1);
+				})
+		});
 	});
 
 	describe('GET /photos', function() {
-	  it('should return jpeg file', function() {
-		return chai.request(app)
-		  .get('/photos/Album/IMG_9991.jpg')
-		  .then(function(res) {
-			expect(res).to.have.status(200);
-			expect(res).to.have.header('content-type', 'image/jpeg');
-		  });
-	  });
+		it('should return jpeg file', function() {
+			return chai.request(app)
+			.get('/photos/Album/IMG_9991.jpg')
+			.then(function(res) {
+				expect(res).to.have.status(200);
+				expect(res).to.have.header('content-type', 'image/jpeg');
+			});
+		});
 
-	  it('should return "Not found" and status 404', function() {
-		return chai.request(app)
-		  .get('/photos/notfound.jpg')
-		  .then(function(res) {
-			expect(res).to.have.status(404);
-			expect(res).to.be.text;
-			expect(res.text).equal('Not found');
-		  });
-	  });
+		it('should return "Not found" and status 404', function() {
+			return chai.request(app)
+			.get('/photos/notfound.jpg')
+			.then(function(res) {
+				expect(res).to.have.status(404);
+				expect(res).to.be.text;
+				expect(res.text).equal('Not found');
+			});
+		});
 
-	  it('should return "Unsupported filetype" and status 404', function() {
-		return chai.request(app)
-		  .get('/photos/unsupported.xxx')
-		  .then(function(res) {
-			expect(res).to.have.status(404);
-			expect(res).to.be.text;
-			expect(res.text).equal('Unsupported filetype');
-		  });
-	  });
+		it('should return "Unsupported filetype" and status 404', function() {
+			return chai.request(app)
+				.get('/photos/unsupported.xxx')
+				.then(function(res) {
+					expect(res).to.have.status(404);
+					expect(res).to.be.text;
+					expect(res.text).equal('Unsupported filetype');
+				});
+		});
 	})
 
 	describe('GET /thumbnails', function() {
-	  it('should return jpeg file', function() {
-		return chai.request(app)
-		  .get('/thumbnails/Album/IMG_2799.jpg')
-		  .then(function(res) {
-			expect(res).to.have.status(200);
-			expect(res).to.have.header('content-type', 'image/jpeg');
-		  });
-	  });
+		it('should return jpeg file', function() {
+			return chai.request(app)
+			.get('/thumbnails/Album/IMG_2799.jpg')
+			.then(function(res) {
+				expect(res).to.have.status(200);
+				expect(res).to.have.header('content-type', 'image/jpeg');
+			});
+		});
 
-	  it('should return "Not found" and status 404', function() {
-		return chai.request(app)
-		  .get('/thumbnails/notfound.jpg')
-		  .then(function(res) {
-			expect(res).to.have.status(404);
-			expect(res).to.be.text;
-			expect(res.text).equal('Not found');
-		  });
-	  });
+		it('should return "Not found" and status 404', function() {
+			return chai.request(app)
+			.get('/thumbnails/notfound.jpg')
+			.then(function(res) {
+				expect(res).to.have.status(404);
+				expect(res).to.be.text;
+				expect(res.text).equal('Not found');
+			});
+		});
 
-	  it('should return "Unsupported filetype" and status 404', function() {
-		return chai.request(app)
-		  .get('/thumbnails/unsupported.xxx')
-		  .then(function(res) {
-			expect(res).to.have.status(404);
-			expect(res).to.be.text;
-			expect(res.text).equal('Unsupported filetype');
-		  });
-	  });
+		it('should return "Unsupported filetype" and status 404', function() {
+			return chai.request(app)
+				.get('/thumbnails/unsupported.xxx')
+				.then(function(res) {
+					expect(res).to.have.status(404);
+					expect(res).to.be.text;
+					expect(res.text).equal('Unsupported filetype');
+				});
+		});
 	})	
 })
 

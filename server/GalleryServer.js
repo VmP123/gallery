@@ -65,7 +65,7 @@ class GalleryServer {
 									album.description = albumInfo.description;
 								}
 								resolve();
-							});							
+							});
 						}));
 						
 						// Photos
@@ -103,7 +103,7 @@ class GalleryServer {
 									album.albums.push(innerAlbum);
 
 									resolve();
-								})							
+								})
 							}));
 						});
 
@@ -115,14 +115,14 @@ class GalleryServer {
 							});
 						})
 					})
-				} else {			
+				} else {
 					resolve({
 						contentType: 'text/plain',
 						status: 404,
 						body: 'Not found'
 					});
 				}
-			});			
+			});
 		})
 	}
 		
@@ -132,7 +132,7 @@ class GalleryServer {
 		res.end(data.body)
 	}
 	
-	getAlbumThumbnail(directory) {	
+	getAlbumThumbnail(directory) {
 		return new Promise((resolve, reject) => {
 			fs.readFile(path.join(directory, this.albumInfoFile), (err, data) => {
 				if (data) {
@@ -155,7 +155,7 @@ class GalleryServer {
 		})
 	}
 	
-	getImage(req, res) {	
+	getImage(req, res) {
 		var file = path.join(this.galleryRootDirectory, this.getAlbumDirectory(req.path));
 		var validateResult = this.validateFile(file);
 		
@@ -172,7 +172,7 @@ class GalleryServer {
 				res.set('Content-Type', 'text/plain');
 				res.status(404);
 				res.end('Not found');
-			});			
+			});
 		}
 	}
 	
