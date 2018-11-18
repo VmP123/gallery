@@ -1,6 +1,7 @@
 const express = require('express')
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
 const sharp = require('sharp');
 const config = require('./config.json');
 const sizeOf = require('image-size');
@@ -28,6 +29,8 @@ class GalleryServer {
 		this.app.get('/albums/', (req, res) => this.getAlbum(req, res));
 		this.app.get('/photos/:path*', (req, res) => this.getImage(req, res));
 		this.app.get('/thumbnails/:path*', (req, res) => this.getThumbnail(req, res));
+
+		//this.f1();
 
 		this.app.listen(this.port, () => 
 			console.log(`App listening on port ${this.port}!`)
@@ -94,13 +97,13 @@ class GalleryServer {
 							var fullPath = this.backslashToSlash(path.join(value.rootDirectory, directory))
 							promises.push(new Promise((resolve, reject) => {
 								this.getAlbumThumbnail(fullPath).then((thumbnail) => {
-									var innerAlbum = {
-										name: directory,
-										albumUrl: '/albums/' + fullPath
+									if (thumbnail) {
+										album.albums.push({
+											name: directory,
+											albumUrl: '/albums/' + fullPath,
+											thumbnailUrl: rootUrl + '/thumbnails/' + thumbnail
+										});
 									}
-									if (thumbnail)
-										innerAlbum['thumbnailUrl'] = rootUrl + '/thumbnails/' + thumbnail;
-									album.albums.push(innerAlbum);
 
 									resolve();
 								})
@@ -132,27 +135,53 @@ class GalleryServer {
 		res.end(data.body)
 	}
 	
-	getAlbumThumbnail(directory) {
-		return new Promise((resolve, reject) => {
-			fs.readFile(path.join(directory, this.albumInfoFile), (err, data) => {
-				if (data) {
-					var albumInfo = JSON.parse(data);
-					if (albumInfo.thumbnailImage) {
-						resolve(this.backslashToSlash(path.join(directory, albumInfo.thumbnailImage)));
-						return;
+	async getAlbumThumbnail (directory) {
+		const innerInner = (directory) => {
+			return new Promise(async (resolve, reject) => {
+				const readFile =  util.promisify(fs.readFile);
+				try {
+					const data = await readFile(path.join(this.galleryRootDirectory, directory, this.albumInfoFile));
+					if (data) {
+						var albumInfo = JSON.parse(data);
+						if (albumInfo.thumbnailImage) {
+							resolve(this.backslashToSlash(path.join(directory, albumInfo.thumbnailImage)));
+							return;
+						}
 					}
+				} catch (err) {
+					// It's ok If file does not exists
 				}
 				
-				var albumInfoFileExt = path.extname(this.albumInfoFile).slice(1);
-				this.readDirectory(directory).then((value) => {
-					var thumbnailImage = value.files.find(file => {
-						var ext = path.extname(file).slice(1);
-						return this.mime[ext] && ext !== albumInfoFileExt;
-					});
-					resolve(thumbnailImage ? this.backslashToSlash(path.join(directory, thumbnailImage)) : null)
-				})
+				const albumInfoFileExt = path.extname(this.albumInfoFile).slice(1);
+				const value = await this.readDirectory(directory);
+
+				var thumbnailImage = value.files.find(file => {
+					var ext = path.extname(file).slice(1);
+					return this.mime[ext] && ext !== albumInfoFileExt;
+				});
+					
+				if (thumbnailImage) // Image found in this directory
+					resolve(this.backslashToSlash(path.join(directory, thumbnailImage)))
+				else if (value.directories) { // Let's find an image from subdirectories
+					for(var subdirectory of value.directories) {
+						var fullSubdirectory = this.backslashToSlash(path.join(directory, subdirectory));
+						var thumbnail = await this.getAlbumThumbnail(fullSubdirectory);
+	
+						if(thumbnail) {
+							resolve (thumbnail); // Image found in subdirectory
+							return;
+						}
+					}
+					
+					resolve(null); // Directories in this directory does not contain (thumbnail) images
+				}
+				else { // No images or directories in this directory
+					resolve(null); 
+				}
 			})
-		})
+		}
+
+		return await innerInner(directory)
 	}
 	
 	getImage(req, res) {
