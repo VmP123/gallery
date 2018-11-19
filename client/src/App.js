@@ -35,7 +35,7 @@ class App extends React.Component {
 							<div className="row">
 								{
 									this.store.albums.map((album) => {
-										return <Album key={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.store.getData(album.albumUrl)} />
+										return <Album key={album.name} name={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.store.getData(album.albumUrl)} />
 									})
 								}
 								{
