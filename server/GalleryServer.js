@@ -30,23 +30,20 @@ class GalleryServer {
 		this.app.get('/photos/:path*', (req, res) => this.getImage(req, res));
 		this.app.get('/thumbnails/:path*', (req, res) => this.getThumbnail(req, res));
 
-		//this.f1();
-
 		this.app.listen(this.port, () => 
 			console.log(`App listening on port ${this.port}!`)
 		)
 	}
 
 	getAlbum(req, res) {
-		var rootUrl = req.protocol + '://' + req.get('host');
 		var albumDirectory = this.getAlbumDirectory(req.path);
 		
-		this.getAlbumInner(rootUrl, albumDirectory, res).then(retVal => {
+		this.getAlbumInner(albumDirectory, res).then(retVal => {
 			this.fillResult(retVal, res);
 		});
 	}
 	
-	getAlbumInner(rootUrl, albumDirectory, res) {
+	getAlbumInner(albumDirectory, res) {
 		return new Promise((resolve, reject) => {
 			fs.lstat(path.join(this.galleryRootDirectory, albumDirectory), (err, stats) => {
 				if (stats && stats.isDirectory()) {
@@ -84,8 +81,8 @@ class GalleryServer {
 										name: file,
 										width: dimensions.width,
 										height: dimensions.height,
-										photoUrl: rootUrl + '/photos/' + fullPath,
-										thumbnailUrl: rootUrl + '/thumbnails/' + fullPath
+										photoUrl: '/photos/' + fullPath,
+										thumbnailUrl: '/thumbnails/' + fullPath
 									});
 									resolve();
 								});
@@ -101,7 +98,7 @@ class GalleryServer {
 										album.albums.push({
 											name: directory,
 											albumUrl: '/albums/' + fullPath,
-											thumbnailUrl: rootUrl + '/thumbnails/' + thumbnail
+											thumbnailUrl: '/thumbnails/' + thumbnail
 										});
 									}
 
@@ -111,6 +108,10 @@ class GalleryServer {
 						});
 
 						Promise.all(promises).then(() => {
+							// Sorting
+							album.photos.sort((a, b) => a.name.localeCompare(b.name));
+							album.albums.sort((a, b) => a.name.localeCompare(b.name));
+							
 							resolve({
 								contentType: 'application/json',
 								status: 200,
@@ -136,7 +137,7 @@ class GalleryServer {
 	}
 	
 	async getAlbumThumbnail (directory) {
-		const innerInner = (directory) => {
+		const getAlbumThumbnailInner = (directory) => {
 			return new Promise(async (resolve, reject) => {
 				const readFile =  util.promisify(fs.readFile);
 				try {
@@ -181,7 +182,7 @@ class GalleryServer {
 			})
 		}
 
-		return await innerInner(directory)
+		return await getAlbumThumbnailInner(directory)
 	}
 	
 	getImage(req, res) {

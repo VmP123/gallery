@@ -7,7 +7,6 @@ chai.use(require('chai-http'));
 
 const app = require('../index.js');
 
-
 describe('Integration tests for RESTful API', function() {
 	describe('GET /albums', function() {
 		it('should return content of root album', function() {
@@ -22,7 +21,7 @@ describe('Integration tests for RESTful API', function() {
 				});
 		});
 
-		it('should return content of album called "a"', function() {
+		it('should return content of album called "Album"', function() {
 			return chai.request(app)
 				.get('/albums/Album')
 				.then(function(res) {
@@ -36,7 +35,7 @@ describe('Integration tests for RESTful API', function() {
 				})
 		});
 
-		it('should return content of album b inside album a', function() {
+		it('should return content of album "Another album" inside album "Album"', function() {
 			return chai.request(app)
 				.get('/albums/Album/Another%20album')
 				.then(function(res) {
