@@ -17,13 +17,13 @@ nav.top-nav {
 .breadcrumb {
 	cursor: pointer;
 }
-.album .info{
-	background-color: #e0e0e0;
-	color: black;
-	height: 40px;
-	margin-top: -40px;
+.overlay-info{
+	background-color: black;
+	color: white;
+	height: 50px;
+	margin-top: -50px;
 	position: relative;
 	font-size: 18px;
-	padding: 7px;
+	padding: 11px;
 	opacity: 0.8;
 }

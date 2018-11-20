@@ -19,16 +19,8 @@ class AppStore {
 		this.history.push(index !== -1 ? url.substring(index) : '');
 	}
 	
-	@action addAlbum(album) {
-		this.albums.push(album);
-	}
-
 	@action setAlbums(albums) {
 		this.albums.replace(albums);
-	}
-
-	@action addPhoto(photo) {
-		this.photos.push(photo);
 	}
 
 	@action setPhotos(photos) {
@@ -36,6 +28,8 @@ class AppStore {
 	}
 
 	@action getData = (url) => {
+		url = url ? url : '/albums/';
+		
 		this.pendingRequests++;
 
 		this.setUrl(url);

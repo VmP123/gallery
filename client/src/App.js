@@ -22,7 +22,7 @@ class App extends React.Component {
 		this.store = new AppStore();
 	}
 	componentDidMount() {
-		this.store.getData('/albums/');
+		this.store.getData();
 	}
 	render() {
 		return (
@@ -35,12 +35,12 @@ class App extends React.Component {
 							<div className="row">
 								{
 									this.store.albums.map((album) => {
-										return <Album key={album.name} name={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.store.getData(album.albumUrl)} />
+										return <Album key={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.store.getData(album.albumUrl)} />
 									})
 								}
 								{
 									this.store.photos.map((photo) => {
-									return <Photo key={photo.name} thumbnailUrl={photo.thumbnailUrl} photoUrl={photo.photoUrl} openPhoto={this.store.openPhoto} />
+										return <Photo key={photo.name} thumbnailUrl={photo.thumbnailUrl} photoUrl={photo.photoUrl} openPhoto={this.store.openPhoto} />
 									})
 								}
 							</div>
