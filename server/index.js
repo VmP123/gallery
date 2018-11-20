@@ -1,4 +1,4 @@
-const GalleryServer = require('./GalleryServer.js')
+const GalleryServer = require('./GalleryServer.js');
 
 var galleryServer = new GalleryServer();
 galleryServer.start();
