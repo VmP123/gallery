@@ -17,7 +17,7 @@ class Header extends React.Component {
 						</div>
 					</div>
 				</nav>
-				<Breadcrumbs items={this.props.breadcrumbs} getData={this.props.getData} />
+				<Breadcrumbs />
 			</div>
 		);
 	}

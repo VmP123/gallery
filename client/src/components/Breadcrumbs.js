@@ -1,7 +1,8 @@
 import React from 'react';
-import { observer } from 'mobx-react'
+import { observer, inject } from 'mobx-react'
 import Breadcrumb from './Breadcrumb.js';
 
+@inject('store')
 @observer
 class Breadcrumbs extends React.Component {
 	render() {
@@ -10,8 +11,8 @@ class Breadcrumbs extends React.Component {
 				<div className="nav-wrapper container row">
 					<div className="col s12">
 						{
-							this.props.items.map((item, index) => {
-								return <Breadcrumb key={index} getData={this.props.getData} name={item.name} url={item.url} />
+							this.props.store.breadcrumbs.map((item, index) => {
+								return <Breadcrumb key={index} getData={this.props.store.getData} name={item.name} url={item.url} />
 							})
 						}
 					</div>

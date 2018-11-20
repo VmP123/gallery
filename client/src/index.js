@@ -1,7 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import { Provider } from 'mobx-react';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import App from './App.js';
+import AppStore from './AppStore.js';
+
+ReactDOM.render((
+	<Provider store={new AppStore()}>
+		<App />
+	</Provider>
+), document.getElementById('root'));
 registerServiceWorker();
