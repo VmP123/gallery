@@ -8,7 +8,7 @@ class Description extends React.Component {
 					<div className="flow-text grey-text text-darken-3">{this.props.text}</div>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 
