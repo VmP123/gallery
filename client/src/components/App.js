@@ -5,9 +5,9 @@ import { PhotoSwipe } from 'react-photoswipe';
 import 'react-photoswipe/lib/photoswipe.css';
 import 'materialize-css/dist/css/materialize.min.css'
 
-import Header from './components/Header.js';
-import Main from './components/Main.js';
-import './App.css';
+import Header from './Header.js';
+import Main from './Main.js';
+import '../App.css';
 
 @inject('store')
 @observer
