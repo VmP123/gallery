@@ -14,9 +14,6 @@ nav.top-nav {
 .header-text {
 	font-weight: 300;
 }
-.breadcrumb {
-	cursor: pointer;
-}
 .overlay-info{
 	background-color: black;
 	color: white;

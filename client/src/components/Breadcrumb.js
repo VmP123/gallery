@@ -1,15 +1,11 @@
 import React from 'react';
-import { action } from 'mobx'
 import { observer } from 'mobx-react'
+import { Link } from "react-router-dom";
 
 @observer
 class Breadcrumb extends React.Component {
 	render() {
-		return <span className="breadcrumb" onClick={this.getData}>{this.props.name}</span>
-	}
-
-	@action getData = () => {
-		this.props.getData(this.props.url);
+		return <Link to={this.props.url.substring(7)} className="breadcrumb"><span className="breadcrumb" >{this.props.name}</span></Link>
 	}
 }
 

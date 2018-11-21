@@ -1,5 +1,4 @@
 import { observable, action, computed } from 'mobx'
-import createHistory from 'history/createBrowserHistory'
 
 class AppStore {
 	@observable url = '';
@@ -7,7 +6,6 @@ class AppStore {
 	@observable albums = [];
 	@observable photos = [];
 	@observable pendingRequests = 0;
-	@observable history = createHistory();
 
 	@action setDescription(description) {
 		this.description = description;
@@ -15,8 +13,6 @@ class AppStore {
 
 	@action setUrl(url) {
 		this.url = url;
-		var index = url.indexOf('/', 1);
-		this.history.push(index !== -1 ? url.substring(index) : '');
 	}
 	
 	@action setAlbums(albums) {
@@ -37,16 +33,20 @@ class AppStore {
 		this.setPhotos([]);
 		this.setAlbums([]);
 
-		fetch(url)
-		.then((response) => { return response.json(); })
-		.then((json) => {
-			this.setDescription(json.description);
-			this.setPhotos(json.photos);
-			this.setAlbums(json.albums);
-			this.pendingRequests--;
+		fetch(url).then((response) => { 
+			if (response.ok) {
+				response.json().then((json) => {
+					console.log('json', json);
+					this.setDescription(json.description);
+					this.setPhotos(json.photos);
+					this.setAlbums(json.albums);
+					this.pendingRequests--;
+				})
+			} else {
+				this.pendingRequests--;
+			}
 		});
 	}
-
 	@action openPhoto = (photoUrl) => {
 		this.photoSwipeOptions.index = this.photoSwipeItems.findIndex((i) => { return i.src === photoUrl; });
 		this.isPhotoSwipeOpen = true;

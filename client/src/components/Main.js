@@ -17,7 +17,7 @@ class Main extends React.Component {
 						<div className="row">
 							{
 								this.props.store.albums.map((album) => {
-									return <Album key={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} photoCount={album.photoCount} albumCount={album.albumCount} openAlbum={() => this.props.store.getData(album.albumUrl)} />
+									return <Album key={album.name} thumbnailUrl={album.thumbnailUrl} name={album.name} albumUrl={album.albumUrl} photoCount={album.photoCount} albumCount={album.albumCount}  />
 								})
 							}
 							{

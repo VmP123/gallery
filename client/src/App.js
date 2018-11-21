@@ -1,5 +1,6 @@
 import React from 'react';
-import { observer, inject } from 'mobx-react'
+import { observer, inject } from 'mobx-react';
+
 import { PhotoSwipe } from 'react-photoswipe';
 import 'react-photoswipe/lib/photoswipe.css';
 import 'materialize-css/dist/css/materialize.min.css'
@@ -12,7 +13,12 @@ import './App.css';
 @observer
 class App extends React.Component {
 	componentDidMount() {
-		this.props.store.getData();
+		const album = this.props.match.params.album;
+		this.props.store.getData('/albums/' + (album ? album : ''));
+	}
+	componentWillReceiveProps(newProps) {
+		const album = newProps.match.params.album;
+		this.props.store.getData('/albums/' + (album ? album : ''));
 	}
 	render() {
 		return (
@@ -24,6 +30,5 @@ class App extends React.Component {
 		);
 	}
 }
-
 
 export default App;

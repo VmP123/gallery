@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'mobx-react';
-
-import App from './App.js';
 import AppStore from './AppStore.js';
+import AppRouter from './AppRouter.js';
 
 ReactDOM.render((
 	<Provider store={new AppStore()}>
-		<App />
+		<AppRouter />
 	</Provider>
 ), document.getElementById('root'));
 registerServiceWorker();
