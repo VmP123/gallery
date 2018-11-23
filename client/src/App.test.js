@@ -40,7 +40,7 @@ describe('Breadcrumbs', () => {
 		}
 		
 		const tree = renderer
-			.create(<Breadcrumbs store={store} />)
+			.create(<MemoryRouter><Breadcrumbs store={store} /></MemoryRouter>)
 			.toJSON();
 		expect(tree).toMatchSnapshot();
 	});	
@@ -67,7 +67,7 @@ describe('Photo', () => {
 describe('Album', () => {
 	it('renders without crashing', () => {		
 		const tree = shallow(
-			<Album name={'Testing'} thumbnailUrl={'http://www.google.com'} photoUrl={'http://www.google.com'} openAlbum={() => console.log('Testing')} />
+			<MemoryRouter><Album name={'Testing'} thumbnailUrl={'http://www.google.com'} photoUrl={'http://www.google.com'} openAlbum={() => console.log('Testing')} /></MemoryRouter>
 		);
 		expect(tree.debug()).toMatchSnapshot();
 	});	

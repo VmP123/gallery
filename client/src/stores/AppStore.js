@@ -36,7 +36,6 @@ class AppStore {
 		fetch(url).then((response) => { 
 			if (response.ok) {
 				response.json().then((json) => {
-					console.log('json', json);
 					this.setDescription(json.description);
 					this.setPhotos(json.photos);
 					this.setAlbums(json.albums);
@@ -47,10 +46,12 @@ class AppStore {
 			}
 		});
 	}
+	
 	@action openPhoto = (photoUrl) => {
 		this.photoSwipeOptions.index = this.photoSwipeItems.findIndex((i) => { return i.src === photoUrl; });
 		this.isPhotoSwipeOpen = true;
 	}
+	
 	@action closePhoto = () => {
 		this.isPhotoSwipeOpen = false;
 	}

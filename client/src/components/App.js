@@ -16,10 +16,15 @@ class App extends React.Component {
 		const album = this.props.match.params.album;
 		this.props.store.getData('/albums/' + (album ? album : ''));
 	}
-	componentWillReceiveProps(newProps) {
-		const album = newProps.match.params.album;
-		this.props.store.getData('/albums/' + (album ? album : ''));
+	
+	componentDidUpdate(prevProps, prevState) {
+		const oldAlbum = prevProps.match.params.album;
+		const newAlbum = this.props.match.params.album;
+		if (oldAlbum !== newAlbum) {
+			this.props.store.getData('/albums/' + (newAlbum ? newAlbum : ''));			
+		}
 	}
+
 	render() {
 		return (
 			<div>

@@ -6,7 +6,6 @@
     "babel-plugin-styled-components": "^1.5.1",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
-    "history": "^4.7.2",
     "materialize-css": "^1.0.0",
     "mobx": "^4.3.0",
     "mobx-react": "^5.1.2",
