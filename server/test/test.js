@@ -18,6 +18,12 @@ describe('Integration tests for RESTful API', function() {
 					expect(res.body).to.be.an('object');
 					expect(res.body.albums).to.be.an('array');
 					expect(res.body.photos).to.be.an('array');
+					expect(res.body.photos[0]).to.be.an('object');
+					expect(res.body.photos[0].name).to.be.an('string');
+					expect(res.body.photos[0].width).to.be.an('number');
+					expect(res.body.photos[0].height).to.be.an('number');
+					expect(res.body.photos[0].photoUrl).to.be.an('string');
+					expect(res.body.photos[0].thumbnailUrl).to.be.an('string');
 				});
 		});
 
