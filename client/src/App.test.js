@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 import Enzyme, { shallow, render, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { MemoryRouter } from 'react-router'
+import { MemoryRouter } from 'react-router';
 
 import Breadcrumb from './components/Breadcrumb.js';
 import Breadcrumbs from './components/Breadcrumbs.js';
@@ -19,7 +19,7 @@ describe('Breadcrumb', () => {
 			.toJSON();
 		expect(tree).toMatchSnapshot();
 	});	
-})
+});
 
 describe('Breadcrumbs', () => {
 	it('renders without crashing', () => {
@@ -37,14 +37,14 @@ describe('Breadcrumbs', () => {
 			getData() {
 				console.log('Testing');
 			}
-		}
+		};
 		
 		const tree = renderer
 			.create(<MemoryRouter><Breadcrumbs store={store} /></MemoryRouter>)
 			.toJSON();
 		expect(tree).toMatchSnapshot();
 	});	
-})
+});
 
 describe('Header', () => {
 	it('renders without crashing', () => {		
@@ -53,7 +53,7 @@ describe('Header', () => {
 		);
 		expect(tree.debug()).toMatchSnapshot();
 	});	
-})
+});
 
 describe('Photo', () => {
 	it('renders without crashing', () => {		
@@ -62,7 +62,7 @@ describe('Photo', () => {
 		);
 		expect(tree.debug()).toMatchSnapshot();
 	});	
-})
+});
 
 describe('Album', () => {
 	it('renders without crashing', () => {		
@@ -71,5 +71,4 @@ describe('Album', () => {
 		);
 		expect(tree.debug()).toMatchSnapshot();
 	});	
-})
-
+});

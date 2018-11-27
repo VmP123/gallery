@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Album renders without crashing 1`] = `
+"<Router history={{...}}>
+  <Album name=\\"Testing\\" thumbnailUrl=\\"http://www.google.com\\" photoUrl=\\"http://www.google.com\\" openAlbum={[Function: openAlbum]} />
+</Router>"
+`;
+
+exports[`Breadcrumb renders without crashing 1`] = `
+<a
+  className="breadcrumb"
+  href="/www.google.com"
+  onClick={[Function]}
+>
+  <span
+    className="breadcrumb"
+  >
+    Testing
+  </span>
+</a>
+`;
+
+exports[`Breadcrumbs renders without crashing 1`] = `
+<nav
+  className="grey darken-3"
+>
+  <div
+    className="nav-wrapper container row"
+  >
+    <div
+      className="col s12"
+    >
+      <a
+        className="breadcrumb"
+        href="/www.google.com"
+        onClick={[Function]}
+      >
+        <span
+          className="breadcrumb"
+        >
+          Eka
+        </span>
+      </a>
+      <a
+        className="breadcrumb"
+        href="/www.google.com"
+        onClick={[Function]}
+      >
+        <span
+          className="breadcrumb"
+        >
+          Toka
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>
+`;
+
+exports[`Header renders without crashing 1`] = `
+"<div>
+  <nav className=\\"top-nav\\">
+    <div className=\\"container\\">
+      <div className=\\"nav-wrapper\\">
+        <div>
+          <div className=\\"col s12 m10 offset-m1\\">
+            <h1 className=\\"grey-text text-darken-3 header-text\\">
+              Valokuvagalleria
+            </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <inject-Breadcrumbs-with-store />
+</div>"
+`;
+
+exports[`Photo renders without crashing 1`] = `
+"<div className=\\"photo col s6 m4 xl3\\" onClick={[Function: res]}>
+  <img className=\\"responsive-img\\" src=\\"http://www.google.com\\" alt=\\"\\" />
+</div>"
+`;
