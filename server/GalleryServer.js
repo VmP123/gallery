@@ -76,16 +76,18 @@ class GalleryServer {
 						}).forEach(file => {
 							var fullPath = this.backslashToSlash(path.join(value.rootDirectory, file))
 							promises.push(new Promise((resolve, reject) => {
-								sizeOf(path.join(this.galleryRootDirectory, fullPath), function (err, dimensions) {
-									album.photos.push({
-										name: file,
-										width: dimensions.width,
-										height: dimensions.height,
-										photoUrl: '/photos/' + fullPath,
-										thumbnailUrl: '/thumbnails/' + fullPath
-									});
-									resolve();
+								const sizeOfPromisified = util.promisify(sizeOf);
+								const dimensions = sizeOfPromisified(path.join(this.galleryRootDirectory, fullPath));
+
+								album.photos.push({
+									name: file,
+									width: dimensions.width,
+									height: dimensions.height,
+									photoUrl: '/photos/' + fullPath,
+									thumbnailUrl: '/thumbnails/' + fullPath
 								});
+								resolve();
+
 							}));
 						});
 
