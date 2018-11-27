@@ -75,10 +75,10 @@ class GalleryServer {
 							return this.mime[ext] && ext !== albumInfoFileExt;
 						}).forEach(file => {
 							var fullPath = this.backslashToSlash(path.join(value.rootDirectory, file))
-							promises.push(new Promise((resolve, reject) => {
+							promises.push(new Promise(async (resolve, reject) => {
 								const sizeOfPromisified = util.promisify(sizeOf);
-								const dimensions = sizeOfPromisified(path.join(this.galleryRootDirectory, fullPath));
-
+								const dimensions = await sizeOfPromisified(path.join(this.galleryRootDirectory, fullPath));
+								
 								album.photos.push({
 									name: file,
 									width: dimensions.width,
